@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class Jwt2faStrategy extends PassportStrategy(Strategy, 'jwt-2fa') {
   constructor() {
     super({
       jwtFromRequest: (req) => {
@@ -11,7 +11,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
         let token;
         if (cookies) {
           cookies.map((cookie) => {
-            if (cookie.includes('access_token')) {
+            if (cookie.includes('2fa_access_token')) {
               token = cookie.split('=')[1];
             }
           });
@@ -24,6 +24,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: any) {
+    // don't forget to pass the correct user
     return { userId: payload.sub, login: payload.login };
   }
 }
