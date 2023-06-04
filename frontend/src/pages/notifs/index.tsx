@@ -4,7 +4,7 @@ import { SocketContext } from "../../context/socket.context";
 import { useContext, useEffect, useState } from "react";
 import { useMedia } from "react-use";
 
-export default function Chat() {
+export default function Notifs() {
   const [open, setOpen] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   let   isMatch = useMedia("(min-width:1024px)", false);
