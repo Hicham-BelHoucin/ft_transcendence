@@ -1,24 +1,23 @@
 import { useMedia } from "react-use";
 import Avatar from "../avatar";
 import clsx from "clsx";
-import IUser from "../../interfaces/user";
 
-const UserBanner = ({
+const ChannelBanner = ({
     showRank,
     rank,
     showRating,
-    user,
+    channel,
 }: {
     showRank?: boolean;
     showRating?: boolean;
     rank?: number;
-    user?: any;
+    channel?: any;
 }) => {
     const isMatch = useMedia("(max-width: 530px)");
     return (
         <div className="my-3 flex h-12 w-full items-center gap-2 justify-between rounded-full bg-tertiary-500">
             <Avatar
-                src={user?.avatar || ""}
+                src={channel?.avatar || ""}
                 className="h-16 w-16"
                 alt=""
             />
@@ -43,17 +42,7 @@ const UserBanner = ({
                         true && "!xl:max-w-full !w-full"
                     )}
                 >
-                    {user?.fullname || user.name || ""}
-                </span>
-                <span
-                    className={clsx(
-                        "max-w-[80px] truncate text-left text-xs sm:max-w-full",
-                        !isMatch && showRating && "!max-w-[90px]",
-                        !isMatch && !showRating && "!max-w-full",
-                        "!xl:max-w-full !w-full"
-                    )}
-                >
-                    @{user?.login || ""}
+                    {channel.name || ""}
                 </span>
             </div>
             <div
@@ -62,11 +51,11 @@ const UserBanner = ({
                     (isMatch || !showRating) && "hidden"
                 )}
             >
-                {user?.rating}
+                {channel?.rating}
                 <img src="/img/smalllogo.svg" alt="logo" width={20} />
             </div>
         </div>
     );
 };
 
-export default UserBanner;
+export default ChannelBanner;
