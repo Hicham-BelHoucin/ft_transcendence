@@ -176,16 +176,48 @@ export class UsersService {
     }
   }
 
-  async findAllUsers(fullname: string) {
+  // async findAllUsers(username: string) {
+  //   try {
+  //     const users = await this.prisma.user.findMany({
+  //       orderBy: {
+  //         rating: 'desc',
+  //       },
+  //       where: {
+  //         username: {
+  //           not: {
+  //             contains: {
+  //               OR : [
+  //                 "hdfhd",
+  //                 "hfhfh"
+  //               ]
+  //             },
+  //           },
+  //         },
+  //       },
+  //     });
+  //     return users;
+  //   } catch (error) {
+  //     throw new NotFoundException(`no users found ? `);
+  //   }
+  // }
+
+  async findAllUsers(username: string) {
     try {
       const users = await this.prisma.user.findMany({
         orderBy: {
           rating: 'desc',
         },
+        where: {
+          NOT: {
+            username: {
+              contains: 'PongMaster',
+            },
+          },
+        },
       });
       return users;
     } catch (error) {
-      throw new NotFoundException(`no users found ? `);
+      throw new NotFoundException(`No users found.`);
     }
   }
 
@@ -237,10 +269,16 @@ export class UsersService {
     }
   }
 
-  async updateStatus(status: string, id: number) {
+  async updateStatus(status: 'ONLINE' | 'INGAME' | 'OFFLINE', id: number) {
     try {
-      if (!id || !status) return;
-      const user = await this.prisma.user.update({
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: id,
+        },
+      });
+
+      if (!user || !id || !status) return;
+      await this.prisma.user.update({
         where: {
           id,
         },
@@ -259,15 +297,22 @@ export class UsersService {
           throw new BadRequestException('Invalid update data');
         }
       }
-      throw error;
+      // throw error;
     }
   }
 
   async deleteUser(id: number) {
     try {
-      const user = await this.prisma.user.delete({
+      const user = await this.prisma.user.update({
         where: {
           id,
+        },
+        data: {
+          status: UserStatus.OFFLINE,
+          username: 'PongMasterUser' + id,
+          login: 'PongMasterUser' + id,
+          email: 'PongMasterUser' + id + '@pongmasters.com',
+          avatar: '/img/deleteduser.png',
         },
       });
       return user;

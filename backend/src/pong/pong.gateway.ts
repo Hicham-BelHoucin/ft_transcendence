@@ -14,7 +14,13 @@ export class PongGateway {
   @WebSocketServer() server;
   onModuleInit() {
     this.server.on('connect', (socket) => {
-      console.log('connected');
+      const clientId = socket.handshake.query.clientId;
+      // this.usersService.changeUserStatus(parseInt(clientId), 'ONLINE');
+      console.log('connected', clientId);
+      socket.on('disconnect', () => {
+        // this.usersService.changeUserStatus(parseInt(clientId), 'OFFLINE');
+        console.log('disconnect', clientId);
+      });
     });
   }
   @SubscribeMessage('play-with-ai')

@@ -22,7 +22,7 @@ import {
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GameProvider from "./context/game.context";
-import  ChatProvider  from "./context/chat.context";
+import ChatProvider from "./context/chat.context";
 
 const PrivateRoutes = () => {
   const { authenticated, loading, user, updateUser } = useContext(AppContext);
@@ -50,9 +50,9 @@ function App() {
 
   return (
     <AppProvider>
-<ChatProvider>
-        <GameProvider>
-      <SocketProvider>
+      <GameProvider>
+        <SocketProvider>
+          <ChatProvider>
           <Routes>
             <Route element={<PrivateRoutes />}>
               <Route path="/" element={<Home />} />
@@ -84,9 +84,9 @@ function App() {
             theme="colored"
             transition={Slide}
             />
-      </SocketProvider>
-        </GameProvider>
             </ChatProvider>
+        </SocketProvider>
+      </GameProvider>
     </AppProvider>
   );
 }

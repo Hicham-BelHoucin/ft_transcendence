@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 const options = [
   { value: "api/users", label: "users" },
   { value: `api/channels`, label: "channels" },
-  { value: "api/games", label: "games" },
 ];
 
 const Select = ({

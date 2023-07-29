@@ -1149,9 +1149,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         //   receiver: member.userId,
         //   url: '/chat',
         // };
-
-        if (!channel.mutedFor.map((u) => u.id).includes(member.userId))
-          this.server.to(socket.id).emit(EVENT.GET_CH_MSSGS, messages);
+        this.server.to(socket.id).emit(EVENT.GET_CH_MSSGS, messages);
       });
     });
   }
