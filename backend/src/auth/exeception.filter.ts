@@ -3,12 +3,11 @@ import {
   Catch,
   ArgumentsHost,
   HttpException,
-  InternalServerErrorException,
 } from '@nestjs/common';
 import { Response } from 'express';
 
 @Catch()
-export class GlobalExceptionFilter implements ExceptionFilter {
+export class FourtyTwoFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -21,16 +20,10 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       message = exception.message;
     }
 
-    if (exception instanceof InternalServerErrorException) {
-      response.status(statusCode).json({
-        statusCode,
-        message,
-      });
-    }
-
-    response.status(statusCode).json({
-      statusCode,
-      message,
-    });
+    response.redirect(process.env.FRONTEND_URL);
+    // response.status(statusCode).json({
+    //   statusCode,
+    //   message,
+    // });
   }
 }
